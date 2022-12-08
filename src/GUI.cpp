@@ -60,11 +60,42 @@ void GUI::HandleExitButton(void)
 	PolyDlg->close();
 }
 
+bool GUI::loadinStr(const Glib::ustring & s)
+{
+	size_t cr = s.find('\n'), l = 0;
+	if (cr != Glib::ustring::npos)
+	{
+		inStr.clear();
+		do
+		{
+			Glib::ustring sub = s.substr(l, cr - l);
+			inStr.push_back(sub);
+			l = cr + 1;
+			while ((l < s.size()) && (s[l] == '\n')) ++l;
+			cr = l >= s.size()? Glib::ustring::npos : s.find('\n', l);
+		} while (cr != Glib::ustring::npos);
+		Glib::ustring r = "";
+		if (l < s.size()) r = s.substr(l);
+		inStr.push_back(r); //insert(inStr.begin(), r);
+		std::reverse(inStr.begin(), inStr.end());
+		return true;
+	}
+	return false;
+}
+
+
 void GUI::on_InputBuffer_insert(const Gtk::TextBuffer::iterator & pos, const Glib::ustring & text, int bytes)
 { // textbuffer not yet updated (should happen in default handler next)
     // cout << "InputBuffer insert signal handler called w/ " << text << " & state=" << state << "\n";
     //timer_control = 0;
-    Glib::ustring::value_type lastChar = text[text.size() - 1];
+	if (loadinStr(itb->get_text())) setupTimer();
+	/*
+	size_t tSz = text.size();
+	
+	if (text.bytes() > 1) return;
+    
+	Glib::ustring::value_type lastChar = text[0]; //[text.size() - 1];
+	
     char lst = static_cast<char>(lastChar);
 	if (lst == '\n')
 	{
@@ -79,6 +110,7 @@ void GUI::on_InputBuffer_insert(const Gtk::TextBuffer::iterator & pos, const Gli
 		//itb->set_text(" ");
 		//itb->erase(itb->begin(), itb->end());
 	}
+	*/
 }
 
 void GUI::on_InputBuffer_changed(void)
@@ -88,12 +120,41 @@ void GUI::on_InputBuffer_changed(void)
 }
 
 bool GUI::on_timeout(int timerID)
-{
-    conn.disconnect(); // one-shot timeout
+{ // using a timer here is currently necessary because the text buffer iterator 
+  // needs to be processed by its default handler
+  // to avoid a warning like: 
+  // Gtk-WARNING **: 17:23:41.446: Invalid text buffer iterator: either the iterator is uninitialized, or the characters/pixbufs/widgets in the buffer have been modified since the iterator was created.
+  //You must use marks, character numbers, or line numbers to preserve a position across buffer modifications.
+  //You can apply tags and insert marks without invalidating your iterators,
+  //but any mutation that affects 'indexable' buffer contents (contents that can be referred to by character offset)
+  //will invalidate all outstanding iterators
+	size_t sSz = inStr.size();
+	Glib::ustring iTxt = inStr[sSz - 1];
+	if (sSz == 1)
+	{
+		//Glib::ustring lStr = inStr[0];
+		//itb->erase(itb->begin(), itb->end());
+		itb->set_text(iTxt);
+		conn.disconnect();
+	}
+	else
+	{
+		//Glib::ustring iTxt = inStr[sSz - 1];
+		//iTxt.erase(iTxt.size() - 1, 1);
+		PolynomialString pstr = PolynomialString(iTxt);
+		Glib::ustring w = pstr.GetInputPolyString() + " = " + pstr.GetOutputPolyString() + "\n\n";
+	    //otb->remove_all_tags(otb->begin(), otb->end());
+	    //if (0 != OTextView->get_pixels_inside_wrap()) OTextView->set_pixels_inside_wrap(0);
+		otb->insert(otb->begin(), w);
+
+	}
+
+	inStr.pop_back();
+
     // hopefully this will allow the input text buffer's default handler to finish:
-    while (gtk_events_pending()) gtk_main_iteration(); 
-	itb->erase(itb->begin(), itb->end());
-    return false;
+    //while (gtk_events_pending()) gtk_main_iteration(); 
+	//itb->erase(itb->begin(), itb->end());
+    return true;
 }
     
 void GUI::setupTimer(void)

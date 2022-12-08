@@ -16,10 +16,12 @@ public:
     void on_InputBuffer_changed(void);
     bool on_timeout(int);
     void setupTimer(void);
+	bool loadinStr(const Glib::ustring &);
 
 	sigc::connection conn;
 	sigc::slot<bool> my_slot;
 	int m_timer_number;
+	std::vector<Glib::ustring> inStr;
 
 	pGEXT pG;
 	Gtk::Dialog * PolyDlg;
