@@ -1,0 +1,34 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Debug C++ project",
+            "type": "shell",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "command": "make",
+            "args": [],
+            "problemMatcher": {
+                "base": "$gcc",
+                "fileLocation": ["relative"]
+            }
+        },
+        {
+            "label": "Build & Run Release C++ project",
+            "type": "shell",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "command": "make",
+            "args": ["RELEASE_DIR=true" , "run"],
+            "problemMatcher": {
+                "base": "$gcc",
+                "fileLocation": ["relative"]
+            }
+        }
+
+    ]
+}

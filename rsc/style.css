@@ -1,0 +1,25 @@
+/*Gtk::Box*/
+#PolyBox {
+	background-color: yellow;
+}
+/*Gtk::Button*/
+#ExitButton {
+	color: white;
+	background-color: blue;
+}
+/*Gtk::ButtonBox*/
+#PolyDlgButtonBox {
+	background-color: yellow;
+}
+/*Gtk::Label*/
+#PolyInLabel,
+#StatusLabel {
+	color: white;
+	background-color: blue;
+}
+/*Gtk::TextView*/
+#OTextView,
+#ITextView {
+	color: white;
+	background-color: blue;
+}
