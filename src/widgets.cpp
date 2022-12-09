@@ -132,16 +132,16 @@ Gtk::Widget * glade_extract::get(const string & wName)
 }
 bool glade_extract::on_PolyDlg_delete_event(GdkEventAny* any_event)
 {
-	cout << "PolyDlg delete connected\n";
+	//cout << "PolyDlg delete connected\n";
 	return false;
 }
 void glade_extract::on_PolyDlg_size_allocate(Gtk::Allocation & allocation)
 {
-	cout << "PolyDlg size connected (x:" << 
-	allocation.get_x() << ", y:" << 
-	allocation.get_y() << ", w:" << 
-	allocation.get_width() << ", h:" << 
-	allocation.get_height() << ")\n" ;
+	//cout << "PolyDlg size connected (x:" << 
+	//allocation.get_x() << ", y:" << 
+	//allocation.get_y() << ", w:" << 
+	//allocation.get_width() << ", h:" << 
+	//allocation.get_height() << ")\n" ;
 }
 void glade_extract::on_ExitButton_clicked(void)
 {

@@ -56,7 +56,7 @@ void GUI::ResetGUI(pGEXT p_g)
 
 void GUI::HandleExitButton(void)
 {
-	cout << "GUI::HandleExitButton called.\n";
+	//cout << "GUI::HandleExitButton called.\n";
 	PolyDlg->close();
 }
 

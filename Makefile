@@ -58,6 +58,13 @@ LOGFILE := $(CWD)/log.txt
 DEPFILE := $(CWD)/dep.txt
 DIRFILE := $(CWD)/dir.txt
 
+#updating base directory structure:
+BDIRS := $(BIN) $(SRC) $(RSC) $(INC) $(BIN)/$(DBG) $(BIN)/$(REL) 
+BD_CHK := $(foreach BD, $(BDIRS), [$(shell [ -d $(BD) ] && echo $(BD)_exists || mkdir $(BD) -pv )])
+BD_ADDS:= $(filter-out %_exists], $(BD_CHK))
+ifneq (,$(BD_ADDS))
+BUFF := $(file >> $(DIRFILE),[directories created=$(BD_ADDS)])
+endif
 #updating directory structure in build subdirectory:
 ODIRS := $(shell find -type d)
 ODIRS := $(ODIRS:./.%=) 
@@ -167,7 +174,7 @@ logsetup:
 	@echo [RELEASE_DIR=$(RELEASE_DIR)] - [MAKECMDGOALS=$(MAKECMDGOALS)] - [MAKE_RESTARTS=$(MAKE_RESTARTS)] [MAKEFILE_LIST=$(MAKEFILE_LIST)] >> $(LOGFILE)
 	@echo [necessary build directories=$(ODIRS)] - [checks=$(MD_RES)] >> $(LOGFILE)
 	@if [ -f $(DIRFILE) ]; then \
-	echo -------\>UPDATED THESE FILES AND DIRECTORIES IN BUILD TREE $(BLD): >> $(LOGFILE) ; \
+	echo -------\>UPDATED THESE FILES AND DIRECTORIES: >> $(LOGFILE) ; \
 	cat $(DIRFILE) >> $(LOGFILE) ; \
 	$(RM) $(DIRFILE) ; fi ; 
 	@echo [CXX=$(CXX)] - [CXX_FLAGS=$(CXX_FLAGS)] >> $(LOGFILE)

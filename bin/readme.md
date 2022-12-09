@@ -1,1 +1,0 @@
-directory structure must include ./bin
