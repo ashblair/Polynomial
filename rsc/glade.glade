@@ -46,18 +46,26 @@
             <property name="can-focus">False</property>
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkTextView" id="OTextView">
-                <property name="name">OTextView</property>
+              <object class="GtkScrolledWindow" id="OScrolled">
+                <property name="name">OScrolled</property>
                 <property name="height-request">500</property>
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="editable">False</property>
-                <property name="wrap-mode">char</property>
-                <property name="cursor-visible">False</property>
-                <property name="accepts-tab">False</property>
+                <property name="can-focus">True</property>
+                <property name="shadow-type">in</property>
+                <child>
+                  <object class="GtkTextView" id="OTextView">
+                    <property name="name">OTextView</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="editable">False</property>
+                    <property name="wrap-mode">char</property>
+                    <property name="cursor-visible">False</property>
+                    <property name="accepts-tab">False</property>
+                  </object>
+                </child>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
@@ -76,12 +84,20 @@
               </packing>
             </child>
             <child>
-              <object class="GtkTextView" id="ITextView">
-                <property name="name">ITextView</property>
+              <object class="GtkScrolledWindow" id="iScrolled">
+                <property name="name">iScrolled</property>
                 <property name="height-request">200</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="wrap-mode">char</property>
+                <property name="shadow-type">in</property>
+                <child>
+                  <object class="GtkTextView" id="ITextView">
+                    <property name="name">ITextView</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="wrap-mode">char</property>
+                  </object>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -104,7 +120,7 @@
             </child>
           </object>
           <packing>
-            <property name="expand">True</property>
+            <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">1</property>
           </packing>
