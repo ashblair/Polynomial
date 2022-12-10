@@ -53,7 +53,7 @@ LIBRARIES	:= $(shell $(PKG_CONFIG) gtkmm-3.0 epoxy glu --libs)
 EXE := $(notdir $(CWD))$(EXE_SFX)
 
 ICONFILE := $(CWD)/share/icons/small.ico
-USETERMINAL := true
+USETERMINAL := false
 LOGFILE := $(CWD)/log.txt
 DEPFILE := $(CWD)/dep.txt
 DIRFILE := $(CWD)/dir.txt
@@ -160,7 +160,7 @@ $(BLD)/$(SRC)/%.o: $(SRC)/%
 	@echo new object file compiled [$@] >> $(LOGFILE)
 
 $(BLD)/$(SRC)/%.d: $(SRC)/%
-	@$(CXX) $(CXX_FLAGS) -I$(INC) $(CFLAGS) -MM $< -MF $@
+	@$(CXX) $(CXX_FLAGS) -I$(INC) -MM $< -MF $@
 	@STEM=$(subst .cpp,,$*) ; \
 	sed -i "s,$${STEM}.o,$(BLD)/$(SRC)/$${STEM}.cpp.o $@," $@ ;
 	@echo new depend file compiled [$@] >> $(DEPFILE)
