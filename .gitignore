@@ -6,5 +6,5 @@
 /launch.sh
 /log.txt
 /log_gladeparse.txt
-/bin/dbg
-/bin/rel
+/bin
+/.vscode
